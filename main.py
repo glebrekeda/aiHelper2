@@ -1,17 +1,35 @@
-# This is a sample Python script.
+import yadisk
+import secrets
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+appId = secrets.yad_appId
+appSecret = secrets.yad_appSecret
+token = secrets.yad_token
+client = yadisk.Client(appId, appSecret, token)
 
+# Вы можете использовать либо конструкцию with, либо вручную вызвать client.close() в конце
+with client:
+    print('client')
+    # Проверяет, валиден ли токен
+    print(client.check_token())
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+    # Получает общую информацию о диске
+    #print(client.get_disk_info())
 
+    # Выводит содержимое "/some/path"
+    #print(list(client.listdir("/Загрузки")))
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-    print('Привет МИР')
+    # Загружает "file_to_upload.txt" в "/destination.txt"
+    #client.upload("file_to_upload.txt", "/destination.txt")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    # То же самое
+    #with open("file_to_upload.txt", "rb") as f:
+    #    client.upload(f, "/destination.txt")
+
+    # Скачивает "/some-file-to-download.txt" в "downloaded.txt"
+    client.download("/Загрузки/testfile.docx", "wrk/testfile.docx")
+
+    # Безвозвратно удаляет "/file-to-remove"
+    #client.remove("/file-to-remove", permanently=True)
+
+    # Создаёт новую папку "/test-dir"
+    #print(client.mkdir("/test-dir"))
